@@ -2,26 +2,25 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "id": "bdc4c312",
+   "id": "8aaf5de4",
    "metadata": {},
    "source": [
-    "# 문제정의\n",
-    "\n",
+    "## 문제정의\n",
     "- 데이터 전처리 및 시각화 방법에 대해 학습"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "8d38a827",
+   "id": "f46f8038",
    "metadata": {},
    "source": [
-    "# 데이터 수집"
+    "## 데이터 수집"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
-   "id": "f712ea6a",
+   "execution_count": 2,
+   "id": "acce7331",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -34,19 +33,17 @@
   },
   {
    "cell_type": "markdown",
-   "id": "0e6995e9",
+   "id": "ff3cc9b3",
    "metadata": {},
    "source": [
-    "# 탐색적 데이터 분석"
+    "## 탐색적 데이터 분석 및 전처리"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
-   "id": "a61419e2",
-   "metadata": {
-    "scrolled": true
-   },
+   "execution_count": 3,
+   "id": "46c15b22",
+   "metadata": {},
    "outputs": [
     {
      "name": "stdout",
@@ -64,13 +61,13 @@
   },
   {
    "cell_type": "markdown",
-   "id": "f8334429",
+   "id": "5a6ddc4c",
    "metadata": {},
    "source": [
     "- 분석 feature : Pclass, Age, Name, SibSp, Parch, Fare, Ticket, Cabin, Embarked\n",
     "- 예측 target label : Survived\n",
     "- feature\n",
-    "<table border=0 align=left width=700>\n",
+    "<table border=0 width=700>\n",
     "  <tr><th>feature<th width=200>의미<th width=300>설명<th> 타입\n",
     "  <tr><td>Survivied<td>생존여부<td>target 라벨 (0 : 사망, 1 : 생존)<td>integer\n",
     "  <tr><td>Pclass<td>티켓의 클래스<td>1 = 1등석, 2 = 2등석, 3 = 3등석<td>integer\n",
@@ -88,11 +85,10 @@
   },
   {
    "cell_type": "markdown",
-   "id": "de24e279",
+   "id": "77fa90b1",
    "metadata": {},
    "source": [
-    "## 탐색적 데이터 분석\n",
-    "\n",
+    "### 탐석적 데이터 분석\n",
     "- 데이터 이해를 이해하자\n",
     "- 결측치(컬럼에 값이 없는 데이터), 이상치(다른 값들과 차이가 큰 값), 오류가 있는지 확인\n",
     "- 기술통계\n",
@@ -102,18 +98,17 @@
   },
   {
    "cell_type": "markdown",
-   "id": "a699c4b8",
+   "id": "a6397435",
    "metadata": {},
    "source": [
-    "## 결측치 확인\n",
-    "\n",
+    "### 결측치 확인\n",
     "- info(), describe(), isnull()과 sum() 함수 등을 이용"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
-   "id": "467e22d1",
+   "execution_count": 4,
+   "id": "b3345d25",
    "metadata": {},
    "outputs": [
     {
@@ -142,16 +137,14 @@
     }
    ],
    "source": [
-    "# 훈련데이터의 결측치 확인\n",
-    "train.info()\n",
-    "\n",
-    "# Age, Cabin, Embarked에 결측치가 존재"
+    "# 훈련 데이터의 결측치 - Age, Cabin, Embarked\n",
+    "train.info()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
-   "id": "caa66184",
+   "execution_count": 5,
+   "id": "8d141ecd",
    "metadata": {},
    "outputs": [
     {
@@ -179,6 +172,7 @@
     }
    ],
    "source": [
+    "# 테스트 데이터의 결측치 - Age, Fare, Cabin\n",
     "test.info()\n",
     "\n",
     "# Age, Fare, Cabin에 결측치가 존재"
@@ -186,24 +180,23 @@
   },
   {
    "cell_type": "markdown",
-   "id": "91b49620",
+   "id": "c12a72d8",
    "metadata": {},
    "source": [
-    "- 결측치 채우는 방법\n",
-    "    - 수치형인 경우\n",
-    "        - 기술통계 (평균, 중간값)\n",
-    "        - 결측치가 적은 경우 : 전체 평균이나 중간값을 대입\n",
-    "        - 결측치가 많은 경우 : 결측치가 있는 데이터의 다른 컬럼과 같은 값을 갖는 데이터의 결측치 통계를 사용\n",
-    "     \n",
-    "    - 범주형인 경우\n",
-    "        - 결측치가 적은 경우 : 데이터수가 가장 많은 클래스로 할당 -> 기존 데이터가 결측치가 있는 데이터에 의해 영향을 덜 받기 때문에\n",
-    "        - 결측치가 많은 경우 : 데이터수가 가장 많은 클래스로 할당 -> 편향이 됨 -> 기존 데이터의 개수 비율만큼 랜덤으로 할당\n"
+    "- 결측치를 채우는 방법\n",
+    "  - 수치형인 경우\n",
+    "    - 기술통계(평균, 중간값)\n",
+    "    - 결측치가 적은 경우 : 전체 평균이나 중간값을 대입\n",
+    "    - 결측치가 많은 경우 : 결측치가 있는 데이터의 다른 컬럼과 같은 값을 갖는 데이터의 결측치 통계를 사용\n",
+    "  - 범주형인 경우\n",
+    "    - 결측치가 적은 경우 : 데이터 수가 가장 많은 클래스로 할당-> 기존 데이터가 결측치가 있는 데이터에 의해 영향을 덜 받기 때문에)\n",
+    "    - 결측치가 많은 경우 : 데이터 수가 가장 많은 클래스로 할당 -> 편향이 됨 -> 기존 데이터의 개수 비율만큼 랜덤으로 할당"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
-   "id": "07f296a3",
+   "execution_count": 6,
+   "id": "0339f208",
    "metadata": {},
    "outputs": [
     {
@@ -223,7 +216,7 @@
        "dtype: int64"
       ]
      },
-     "execution_count": 5,
+     "execution_count": 6,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -235,8 +228,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
-   "id": "b0671095",
+   "execution_count": 7,
+   "id": "13af3794",
    "metadata": {},
    "outputs": [
     {
@@ -255,7 +248,7 @@
        "dtype: int64"
       ]
      },
-     "execution_count": 6,
+     "execution_count": 7,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -266,8 +259,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
-   "id": "a1e0b02a",
+   "execution_count": 8,
+   "id": "dd175a6e",
    "metadata": {},
    "outputs": [
     {
@@ -388,7 +381,7 @@
        "max      1.000000    3.000000   80.000000    8.000000    6.000000  512.329200"
       ]
      },
-     "execution_count": 7,
+     "execution_count": 8,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -399,8 +392,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
-   "id": "3a62a005",
+   "execution_count": 9,
+   "id": "a89f9feb",
    "metadata": {},
    "outputs": [
     {
@@ -512,7 +505,7 @@
        "max      3.000000   76.000000    8.000000    9.000000  512.329200"
       ]
      },
-     "execution_count": 8,
+     "execution_count": 9,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -523,8 +516,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
-   "id": "7d1dffbb",
+   "execution_count": 10,
+   "id": "9d5d5f32",
    "metadata": {},
    "outputs": [
     {
@@ -600,21 +593,21 @@
        "3       0.242363  25.140620  0.615071  0.393075  13.675550"
       ]
      },
-     "execution_count": 9,
+     "execution_count": 10,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "# 등급별(Pclass) 통계 (평균)\n",
-    "# gruopby() : 원하는 컬럼을 중심으로 그룹핑해주는 함수\n",
+    "# groupby() : 원하는 컬럼을 중심으로 그룹핑해주는 함수\n",
     "# Pclass 컬럼의 클래스별로 각 컬럼의 평균을 계산\n",
     "train.groupby(\"Pclass\").mean()"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "79ae2c1b",
+   "id": "84c9e7b8",
    "metadata": {},
    "source": [
     "- 1등실 생존율이 높았다\n",
@@ -624,9 +617,11 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
-   "id": "557f758c",
-   "metadata": {},
+   "execution_count": 11,
+   "id": "dfeb235d",
+   "metadata": {
+    "scrolled": true
+   },
    "outputs": [
     {
      "data": {
@@ -725,45 +720,71 @@
        "       1         20.646118  0.436975  0.420168  13.694887"
       ]
      },
-     "execution_count": 10,
+     "execution_count": 11,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "train.groupby([\"Pclass\",\"Survived\"]).mean()"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "12a85d73",
-   "metadata": {},
-   "source": [
-    "- 3등실 승객의 사망/생존자의 요금은 비슷하다\n",
-    "- 1등실 승객의 사망/생존자의 요금은 생존자의 요금이 더 비쌌다\n",
-    "- 같은 클래스에서는 나이가 어릴수록 생존이 높았다"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "5e2e8fce",
-   "metadata": {},
-   "source": [
-    "## Age 결측치 채우기\n",
-    "\n",
-    "- 결측치가 있는 데이터의 다른 컬럼의 값과 같은 데이터의 평균값을 사용해서 결측치를 채움\n",
-    "- 그럼 어떤 컬럼을 참조할까요?\n",
-    "    - 결측치가 있는 컬럼(Age)와 상관관계가 높은 컬럼 선택(범주형)\n",
-    "- 피벗 테이블을 활용\n",
-    "\n",
-    "- apply()을 이용하여 전체 데이터에 결측치를 채움\n",
-    "    - 데이터프레임의 데이터를 분리해서 원하는 처리를 수행한 후 다시 병합하는 함수 -> 재구조화 함수(reconstruct function)"
+    "train.groupby([\"Pclass\", \"Survived\"]).mean()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
-   "id": "5647b80f",
+   "execution_count": 106,
+   "id": "307444ae",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "KeyError",
+     "evalue": "\"['Sex'] not in index\"",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mKeyError\u001b[0m                                  Traceback (most recent call last)",
+      "Input \u001b[1;32mIn [106]\u001b[0m, in \u001b[0;36m<cell line: 1>\u001b[1;34m()\u001b[0m\n\u001b[1;32m----> 1\u001b[0m \u001b[43mtrain\u001b[49m\u001b[43m[\u001b[49m\u001b[43m[\u001b[49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[38;5;124;43mPclass\u001b[39;49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[43m,\u001b[49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[38;5;124;43mSex\u001b[39;49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[43m,\u001b[49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[38;5;124;43mAge\u001b[39;49m\u001b[38;5;124;43m'\u001b[39;49m\u001b[43m]\u001b[49m\u001b[43m]\u001b[49m\u001b[38;5;241m.\u001b[39mgroupby(by\u001b[38;5;241m=\u001b[39m[\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mPclass\u001b[39m\u001b[38;5;124m'\u001b[39m,\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mSex\u001b[39m\u001b[38;5;124m'\u001b[39m])\u001b[38;5;241m.\u001b[39mtransform(\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mmedian\u001b[39m\u001b[38;5;124m'\u001b[39m)\n",
+      "File \u001b[1;32m~\\Anaconda3\\lib\\site-packages\\pandas\\core\\frame.py:3511\u001b[0m, in \u001b[0;36mDataFrame.__getitem__\u001b[1;34m(self, key)\u001b[0m\n\u001b[0;32m   3509\u001b[0m     \u001b[38;5;28;01mif\u001b[39;00m is_iterator(key):\n\u001b[0;32m   3510\u001b[0m         key \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mlist\u001b[39m(key)\n\u001b[1;32m-> 3511\u001b[0m     indexer \u001b[38;5;241m=\u001b[39m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mcolumns\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43m_get_indexer_strict\u001b[49m\u001b[43m(\u001b[49m\u001b[43mkey\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;124;43m\"\u001b[39;49m\u001b[38;5;124;43mcolumns\u001b[39;49m\u001b[38;5;124;43m\"\u001b[39;49m\u001b[43m)\u001b[49m[\u001b[38;5;241m1\u001b[39m]\n\u001b[0;32m   3513\u001b[0m \u001b[38;5;66;03m# take() does not accept boolean indexers\u001b[39;00m\n\u001b[0;32m   3514\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28mgetattr\u001b[39m(indexer, \u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mdtype\u001b[39m\u001b[38;5;124m\"\u001b[39m, \u001b[38;5;28;01mNone\u001b[39;00m) \u001b[38;5;241m==\u001b[39m \u001b[38;5;28mbool\u001b[39m:\n",
+      "File \u001b[1;32m~\\Anaconda3\\lib\\site-packages\\pandas\\core\\indexes\\base.py:5782\u001b[0m, in \u001b[0;36mIndex._get_indexer_strict\u001b[1;34m(self, key, axis_name)\u001b[0m\n\u001b[0;32m   5779\u001b[0m \u001b[38;5;28;01melse\u001b[39;00m:\n\u001b[0;32m   5780\u001b[0m     keyarr, indexer, new_indexer \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_reindex_non_unique(keyarr)\n\u001b[1;32m-> 5782\u001b[0m \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43m_raise_if_missing\u001b[49m\u001b[43m(\u001b[49m\u001b[43mkeyarr\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mindexer\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43maxis_name\u001b[49m\u001b[43m)\u001b[49m\n\u001b[0;32m   5784\u001b[0m keyarr \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mtake(indexer)\n\u001b[0;32m   5785\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28misinstance\u001b[39m(key, Index):\n\u001b[0;32m   5786\u001b[0m     \u001b[38;5;66;03m# GH 42790 - Preserve name from an Index\u001b[39;00m\n",
+      "File \u001b[1;32m~\\Anaconda3\\lib\\site-packages\\pandas\\core\\indexes\\base.py:5845\u001b[0m, in \u001b[0;36mIndex._raise_if_missing\u001b[1;34m(self, key, indexer, axis_name)\u001b[0m\n\u001b[0;32m   5842\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mKeyError\u001b[39;00m(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mNone of [\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mkey\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m] are in the [\u001b[39m\u001b[38;5;132;01m{\u001b[39;00maxis_name\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m]\u001b[39m\u001b[38;5;124m\"\u001b[39m)\n\u001b[0;32m   5844\u001b[0m not_found \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mlist\u001b[39m(ensure_index(key)[missing_mask\u001b[38;5;241m.\u001b[39mnonzero()[\u001b[38;5;241m0\u001b[39m]]\u001b[38;5;241m.\u001b[39munique())\n\u001b[1;32m-> 5845\u001b[0m \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mKeyError\u001b[39;00m(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mnot_found\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m not in index\u001b[39m\u001b[38;5;124m\"\u001b[39m)\n",
+      "\u001b[1;31mKeyError\u001b[0m: \"['Sex'] not in index\""
+     ]
+    }
+   ],
+   "source": [
+    "train[['Pclass','Sex','Age']].groupby(by=['Pclass','Sex']).transform('median')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "804a9bcd",
+   "metadata": {},
+   "source": [
+    "- 3등실 승객의 사망/생존자의 요금은 비슷하다\n",
+    "- 1등실 승객의 사망/생존자의 요금은 생존자의 요금이 더 비쌌다\n",
+    "- 같은 클래스에서는, 나이가 어릴수록 생존이 높았다"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1894577f",
+   "metadata": {},
+   "source": [
+    "### Age 결측치 채우기\n",
+    "- 결측치가 있는 데이터의 다른 컬럼의 값과 같은 데이터의 평균값을 사용해서 결측치를 채움\n",
+    "\n",
+    "- 그럼 어떤 컬럼을 참조할까요?\n",
+    "  - 결측치가 있는 컬럼(Age)와 상관관게가 높은 컬럼 선택(범주형)\n",
+    "\n",
+    "- 피벗 테이블을 활용\n",
+    "- apply()을 이용하여 전체 데이터에 결측치를 채움\n",
+    "  - 데이터프레임의 데이터를 분리해서 원하는 처리를 수행한 후 다시 병합하는 함수\n",
+    "  - -->재구조화 함수(reconstruct function)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "a55f8af1",
    "metadata": {},
    "outputs": [
     {
@@ -864,20 +885,21 @@
        "Fare      0.257307 -0.549500  0.096067  0.159651  0.216225  1.000000"
       ]
      },
-     "execution_count": 11,
+     "execution_count": 13,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "# Age 컬럼과 상관관계가 높은 컬럼 찾기\n",
+    "# 상관계수 \n",
     "train.corr()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
-   "id": "34069803",
+   "execution_count": 14,
+   "id": "857d22ae",
    "metadata": {},
    "outputs": [
     {
@@ -953,7 +975,7 @@
        "       male    26.507589"
       ]
      },
-     "execution_count": 12,
+     "execution_count": 14,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -963,17 +985,16 @@
     "# 결측치를 채울 컬럼\n",
     "# index : 참고할 컬럼 목록 리스트\n",
     "# aggfunc : 사용할 수학 도구(평균, 중간값)\n",
-    "\n",
-    "pt1 = train.pivot_table(values = \"Age\",\n",
-    "                    index = [\"Pclass\",\"Sex\"],\n",
-    "                    aggfunc = \"mean\")\n",
+    "pt1 = train.pivot_table(values=\"Age\",\n",
+    "                       index=[\"Pclass\",\"Sex\"],\n",
+    "                       aggfunc = \"mean\")\n",
     "pt1"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
-   "id": "107f93f8",
+   "execution_count": 15,
+   "id": "53dbe42e",
    "metadata": {},
    "outputs": [
     {
@@ -983,20 +1004,20 @@
        "Name: (1, male), dtype: float64"
       ]
      },
-     "execution_count": 13,
+     "execution_count": 15,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "# 피벗 테이블에 접근하는 방법\n",
-    "pt1.loc[1,'male']"
+    "pt1.loc[1,\"male\"]"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
-   "id": "944e83a2",
+   "execution_count": 16,
+   "id": "6b987686",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1005,30 +1026,29 @@
     "def fill_age(row):\n",
     "    # 한 줄 데이터에서 Age 컬럼이 결측치라면\n",
     "    if np.isnan(row[\"Age\"]):\n",
-    "        # 피벗 테이블 참조(같은 Pclass와 Sex인 값을 반환)\n",
-    "        return pt1.loc[row[\"Pclass\"],row[\"Sex\"]]\n",
-    "    #결측치가 아닌 경우\n",
+    "        # 피벗 테이블을 참조(같은 Pclass와 Sex인 값을 반환)\n",
+    "        return pt1.loc[row[\"Pclass\"], row['Sex']]\n",
+    "    # 결측치가 아닌 경우\n",
     "    else:\n",
     "        return row[\"Age\"]"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
-   "id": "d204e9ac",
+   "execution_count": 17,
+   "id": "aa6ce3b5",
    "metadata": {},
    "outputs": [],
    "source": [
-    "# axis=1 (열방향)한 줄씩 넘긴다\n",
+    "# axis=1 -> 한 줄씩 넘긴다\n",
     "# astype(\"int64\") : 나이는 실수가 없으니 정수로 변환\n",
-    "train[\"Age\"] = train.apply(fill_age, axis=1).astype(\"int64\")\n",
-    "test[\"Age\"] = test.apply(fill_age, axis=1).astype(\"int64\")"
+    "train[\"Age\"] = train.apply(fill_age, axis=1).astype(\"int64\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
-   "id": "698caa85",
+   "execution_count": 18,
+   "id": "7eccf227",
    "metadata": {},
    "outputs": [
     {
@@ -1062,8 +1082,18 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
-   "id": "21c16532",
+   "execution_count": 19,
+   "id": "7ba8df9c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test[\"Age\"] = test.apply(fill_age, axis=1).astype(\"int64\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "5bc1c46b",
    "metadata": {},
    "outputs": [
     {
@@ -1096,16 +1126,16 @@
   },
   {
    "cell_type": "markdown",
-   "id": "7e1f8798",
+   "id": "7b8e3d92",
    "metadata": {},
    "source": [
-    "## train 데이터의 Embarked 결측치 채우기"
+    "### train 데이터의 Embarked 결측치 채우기"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
-   "id": "25745af7",
+   "execution_count": 21,
+   "id": "7e05292f",
    "metadata": {},
    "outputs": [
     {
@@ -1117,31 +1147,31 @@
        "Name: Embarked, dtype: int64"
       ]
      },
-     "execution_count": 18,
+     "execution_count": 21,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "# 가장 많은 데이터수를 갖는 클래스(S)로 결측치를 할당\n",
+    "# 가장 많은 데이터 수를 갖는 클래스로 결측치를 할당 -> S\n",
     "train[\"Embarked\"].value_counts()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
-   "id": "296a004f",
+   "execution_count": 22,
+   "id": "59225bae",
    "metadata": {},
    "outputs": [],
    "source": [
     "# Embarked 컬럼이 결측치인 값을 S로 채운다\n",
-    "train[\"Embarked\"] = train[\"Embarked\"].fillna('S')"
+    "train['Embarked'] = train['Embarked'].fillna('S')"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
-   "id": "689d6740",
+   "execution_count": 23,
+   "id": "1bfcd4b8",
    "metadata": {},
    "outputs": [
     {
@@ -1175,16 +1205,16 @@
   },
   {
    "cell_type": "markdown",
-   "id": "0884b90c",
+   "id": "4acdf03d",
    "metadata": {},
    "source": [
-    "## test 데이터의 Fare 결측치 채우기"
+    "### test 데이터의 Fare 결측치 채우기"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
-   "id": "5b6ca0a3",
+   "execution_count": 24,
+   "id": "92a0a75c",
    "metadata": {},
    "outputs": [
     {
@@ -1261,7 +1291,7 @@
        "1044          NaN        S  "
       ]
      },
-     "execution_count": 21,
+     "execution_count": 24,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1273,8 +1303,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 22,
-   "id": "20092b20",
+   "execution_count": 25,
+   "id": "516d38c0",
    "metadata": {},
    "outputs": [
     {
@@ -1365,48 +1395,182 @@
        "       S          13.913030"
       ]
      },
-     "execution_count": 22,
+     "execution_count": 25,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "# 피벗 테이블 생성\n",
-    "# 결측치를 채울 컬럼\n",
-    "# index : 참고할 컬럼 목록 리스트\n",
-    "# aggfunc : 사용할 수학 도구(평균, 중간값)\n",
-    "\n",
-    "pt2 = test.pivot_table(values = \"Fare\",\n",
-    "                    index = [\"Pclass\",\"Embarked\"],\n",
-    "                    aggfunc = \"mean\")\n",
+    "pt2 = test.pivot_table(values=\"Fare\",\n",
+    "                       index=[\"Pclass\",\"Embarked\"],\n",
+    "                       aggfunc = \"mean\")\n",
     "pt2"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 23,
-   "id": "97ad5256",
+   "execution_count": 26,
+   "id": "59b605af",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th>Fare</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Pclass</th>\n",
+       "      <th>Embarked</th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"3\" valign=\"top\">1</th>\n",
+       "      <th>C</th>\n",
+       "      <td>104.718529</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Q</th>\n",
+       "      <td>90.000000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>S</th>\n",
+       "      <td>70.514244</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"3\" valign=\"top\">2</th>\n",
+       "      <th>C</th>\n",
+       "      <td>25.358335</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Q</th>\n",
+       "      <td>12.350000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>S</th>\n",
+       "      <td>20.327439</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th rowspan=\"3\" valign=\"top\">3</th>\n",
+       "      <th>C</th>\n",
+       "      <td>11.214083</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Q</th>\n",
+       "      <td>11.183393</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>S</th>\n",
+       "      <td>14.644083</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                       Fare\n",
+       "Pclass Embarked            \n",
+       "1      C         104.718529\n",
+       "       Q          90.000000\n",
+       "       S          70.514244\n",
+       "2      C          25.358335\n",
+       "       Q          12.350000\n",
+       "       S          20.327439\n",
+       "3      C          11.214083\n",
+       "       Q          11.183393\n",
+       "       S          14.644083"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pt3 = train.pivot_table(values=\"Fare\",\n",
+    "                       index=[\"Pclass\",\"Embarked\"],\n",
+    "                       aggfunc = \"mean\")\n",
+    "pt3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "d24f80c0",
    "metadata": {},
    "outputs": [],
    "source": [
-    "test[\"Fare\"] = test[\"Fare\"].fillna(pt2.loc[3,\"Fare\"])"
+    "test[\"Fare\"] = test[\"Fare\"].fillna(13.913030)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "96aac3e2",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "Int64Index: 418 entries, 892 to 1309\n",
+      "Data columns (total 10 columns):\n",
+      " #   Column    Non-Null Count  Dtype  \n",
+      "---  ------    --------------  -----  \n",
+      " 0   Pclass    418 non-null    int64  \n",
+      " 1   Name      418 non-null    object \n",
+      " 2   Sex       418 non-null    object \n",
+      " 3   Age       418 non-null    int64  \n",
+      " 4   SibSp     418 non-null    int64  \n",
+      " 5   Parch     418 non-null    int64  \n",
+      " 6   Ticket    418 non-null    object \n",
+      " 7   Fare      418 non-null    float64\n",
+      " 8   Cabin     91 non-null     object \n",
+      " 9   Embarked  418 non-null    object \n",
+      "dtypes: float64(1), int64(4), object(5)\n",
+      "memory usage: 35.9+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "test.info()"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "b9433cef",
+   "id": "a0c8e82f",
    "metadata": {},
    "source": [
-    "## Cabin 결측치 채우기\n",
-    "\n",
-    "- 결측치가 실제 객실이 없는 승객이었을 가능성이 있으므로 원래값에 중복되지 않는 영문자 채움\n",
+    "### Cabin 결측치 채우기\n",
+    "- 결측치가 실제 객실이 없는 승객이었을 가능성이 있으므로 원래 값에 중복되지 않는 영문자 채움\n",
     "- 원래 객실번호의 첫번째 영문자 추출"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
-   "id": "1657eab6",
+   "execution_count": 29,
+   "id": "6d507ac8",
    "metadata": {},
    "outputs": [
     {
@@ -1432,7 +1596,7 @@
        "       'C148'], dtype=object)"
       ]
      },
-     "execution_count": 24,
+     "execution_count": 29,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1443,8 +1607,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 25,
-   "id": "51c53130",
+   "execution_count": 30,
+   "id": "00ef0bb0",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1455,11 +1619,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 26,
-   "id": "f8ed08ca",
-   "metadata": {
-    "scrolled": true
-   },
+   "execution_count": 31,
+   "id": "a9b3f78d",
+   "metadata": {},
    "outputs": [
     {
      "name": "stdout",
@@ -1492,8 +1654,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 27,
-   "id": "5f295f9a",
+   "execution_count": 32,
+   "id": "4826b480",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1504,8 +1666,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 28,
-   "id": "4d1289e5",
+   "execution_count": 33,
+   "id": "2741a4ac",
    "metadata": {},
    "outputs": [
     {
@@ -1514,7 +1676,7 @@
        "array(['M', 'C', 'E', 'G', 'D', 'A', 'B', 'F', 'T'], dtype=object)"
       ]
      },
-     "execution_count": 28,
+     "execution_count": 33,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1525,48 +1687,47 @@
   },
   {
    "cell_type": "markdown",
-   "id": "847144d7",
+   "id": "177fc4dd",
    "metadata": {},
    "source": [
-    "## 데이터 시각화 하기!\n",
-    "- test 데이터를 활용하지 않고 train 데이터를 이용해서 시각화/탐색하는게 좋다."
+    "### 데이터 시각화하기\n",
+    "- test데이터를 활용하지 않고 train데이터를 이용해서 시각화/탐색하는게 좋다."
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "c0002c6b",
+   "id": "2dc1d51c",
    "metadata": {},
    "source": [
-    "### 범주형 데이터 시각화\n",
-    "- 빈도기반의 bar chart를 많이 활용"
+    "#### 범주형 데이터 시각화\n",
+    "- 빈도 기반의 bar chart를 많이 활용"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2daaced8",
+   "metadata": {},
+   "source": [
+    "##### Cabin 시각화"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 30,
-   "id": "89b8b17f",
+   "execution_count": 34,
+   "id": "c34c44fa",
    "metadata": {},
    "outputs": [],
    "source": [
     "# matplotlib 기반의 데이터 시각화 라이브러리\n",
+    "# https://seaborn.pydata.org/index.html\n",
     "import seaborn as sns"
    ]
   },
   {
-   "cell_type": "markdown",
-   "id": "d6fc8a2f",
-   "metadata": {},
-   "source": [
-    "#### Cabin 시각화"
-   ]
-  },
-  {
    "cell_type": "code",
-   "execution_count": 33,
-   "id": "9c9868e1",
-   "metadata": {
-    "collapsed": true
-   },
+   "execution_count": 35,
+   "id": "20789211",
+   "metadata": {},
    "outputs": [
     {
      "data": {
@@ -1574,7 +1735,41 @@
        "<AxesSubplot:xlabel='Cabin', ylabel='count'>"
       ]
      },
-     "execution_count": 33,
+     "execution_count": 35,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sns.countplot(data=train, # 사용할 데이터 지정\n",
+    "             x='Cabin')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "8265cbd9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<AxesSubplot:xlabel='Cabin', ylabel='count'>"
+      ]
+     },
+     "execution_count": 36,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -1593,34 +1788,32 @@
    ],
    "source": [
     "sns.countplot(data=train, # 사용할 데이터 지정\n",
-    "             x = 'Cabin', # x축에서 범주로 사용할 컬럼 지정\n",
-    "             hue = 'Survived') # 각 범주를 분리할 컬럼 지정\n"
+    "             x='Cabin', # x축에서 범주로 사용할 컬럼 지정\n",
+    "             hue = 'Survived') # 각 범주를 분리할 컬럼 지정"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "7b2d4517",
+   "id": "36c91852",
    "metadata": {},
    "source": [
-    "- B,D 같은 경우는 살아남기에 괜찮은 객실일 수 있다.\n",
-    "- M 같은 경우는 죽은사람들의 비율이 엄청 높다."
+    "- B,D 같은 경우는 살아남기에 괜찮은 객실일 수 있다!\n",
+    "- M 같은 경우는 죽은 사람들의 비율이 엄청 높다."
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "65e11c21",
+   "id": "d5e175bc",
    "metadata": {},
    "source": [
-    "#### Pclass 시각화"
+    "##### Pclass 시각화"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 34,
-   "id": "6c5f1adc",
-   "metadata": {
-    "collapsed": true
-   },
+   "execution_count": 37,
+   "id": "a31b28c0",
+   "metadata": {},
    "outputs": [
     {
      "data": {
@@ -1628,7 +1821,7 @@
        "<AxesSubplot:xlabel='Pclass', ylabel='count'>"
       ]
      },
-     "execution_count": 34,
+     "execution_count": 37,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -1647,22 +1840,22 @@
    ],
    "source": [
     "sns.countplot(data=train, # 사용할 데이터 지정\n",
-    "             x = 'Pclass', # x축에서 범주로 사용할 컬럼 지정\n",
+    "             x='Pclass', # x축에서 범주로 사용할 컬럼 지정\n",
     "             hue = 'Survived') # 각 범주를 분리할 컬럼 지정"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "825d7546",
+   "id": "91f75a51",
    "metadata": {},
    "source": [
-    "#### Cabin & Pclass 시각화"
+    "##### Cabin & Pclass 시각화"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 35,
-   "id": "a16bbb5a",
+   "execution_count": 38,
+   "id": "57c8414c",
    "metadata": {},
    "outputs": [
     {
@@ -1671,7 +1864,7 @@
        "<AxesSubplot:xlabel='Cabin', ylabel='count'>"
       ]
      },
-     "execution_count": 35,
+     "execution_count": 38,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -1690,41 +1883,41 @@
    ],
    "source": [
     "sns.countplot(data=train, # 사용할 데이터 지정\n",
-    "             x = 'Cabin', # x축에서 범주로 사용할 컬럼 지정\n",
+    "             x='Cabin', # x축에서 범주로 사용할 컬럼 지정\n",
     "             hue = 'Pclass') # 각 범주를 분리할 컬럼 지정"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "4014863a",
+   "id": "c8645a37",
    "metadata": {},
    "source": [
-    "- M에는 3등급이 많이 있어서 죽은사람의 비율이 높아보인거 같다.\n",
+    "- M에는 3등급이 많이 있어서 죽은사람의 비율이 높아보인 것 같다.\n",
     "- M이 생존여부 판단에는 도움이 덜 될 수 있겠다."
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "e2eb0238",
+   "id": "889b82bc",
    "metadata": {},
    "source": [
-    "### 수치형 데이터 시각화\n",
+    "#### 수치형 데이터 시각화\n",
     "- 구간을 나눠서 종합하는 히스토그램\n",
     "- 커널밀도 추정 그래프"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "e465e8eb",
+   "id": "677c0067",
    "metadata": {},
    "source": [
-    "#### matplotlib.pyplot 함수"
+    "##### matplotlib hist 함수"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 36,
-   "id": "c04640f7",
+   "execution_count": 39,
+   "id": "a4340afa",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1733,8 +1926,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 37,
-   "id": "d8ef7356",
+   "execution_count": 40,
+   "id": "8f4fb231",
    "metadata": {},
    "outputs": [
     {
@@ -1751,22 +1944,22 @@
     }
    ],
    "source": [
-    "plt.hist(train['Age'],bins=10)\n",
+    "plt.hist(train['Age'], bins=10)\n",
     "plt.show()"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "a4986696",
+   "id": "5c9b4ebd",
    "metadata": {},
    "source": [
-    "#### seaborn hisplot 함수"
+    "##### seaborn histplot 함수"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 40,
-   "id": "0667e887",
+   "execution_count": 41,
+   "id": "5352c21b",
    "metadata": {},
    "outputs": [
     {
@@ -1775,7 +1968,7 @@
        "<AxesSubplot:xlabel='Age', ylabel='Count'>"
       ]
      },
-     "execution_count": 40,
+     "execution_count": 41,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -1793,21 +1986,21 @@
     }
    ],
    "source": [
-    "sns.histplot(data=train, x=train['Age'],bins=20, hue=\"Survived\")"
+    "sns.histplot(data=train, x=train['Age'], bins=20, hue=\"Survived\")"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "62ae22fe",
+   "id": "137f6c24",
    "metadata": {},
    "source": [
-    "- 20대 중-후반의 사람들이 죽은 비율이높다.\n",
+    "- 20대 중~후반의 사람들이 죽은 비율이 높다.\n",
     "- 10살 미만의 사람들이 산 비율이 약간 높다."
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "5095e743",
+   "id": "dbc2b932",
    "metadata": {},
    "source": [
     "#### 커널밀도추정 그래프 시각화"
@@ -1815,8 +2008,41 @@
   },
   {
    "cell_type": "code",
+   "execution_count": 42,
+   "id": "f9dc8d76",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<AxesSubplot:xlabel='Age', ylabel='Density'>"
+      ]
+     },
+     "execution_count": 42,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "sns.kdeplot(data=train, x=\"Age\")"
+   ]
+  },
+  {
+   "cell_type": "code",
    "execution_count": 43,
-   "id": "cfb88f24",
+   "id": "1127d4e6",
    "metadata": {},
    "outputs": [
     {
@@ -1844,31 +2070,31 @@
    ],
    "source": [
     "# 요금 데이터 시각화\n",
-    "sns.kdeplot(data=train,x=train['Fare'],hue='Survived')"
+    "sns.kdeplot(data=train, x=train['Fare'], hue=\"Survived\")"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "3db607d6",
+   "id": "9a0f6ec1",
    "metadata": {},
    "source": [
-    "- 0~40달러사이의 사람은 죽은 사람의 밀도가 높다.\n",
+    "- 0~40달러 사이의 사람은 죽은 사람의 밀도가 높다.\n",
     "- 200달러 이상의 사람은 산 사람의 밀도가 아주 살짝 높다."
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "2780809b",
+   "id": "599867b1",
    "metadata": {},
    "source": [
-    "#### 바이올린플롯 그래프 시각화\n",
+    "##### 바이올린플롯 그래프 시각화\n",
     "- 박스 + KDE 그래프"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 47,
-   "id": "2a6715e2",
+   "execution_count": 44,
+   "id": "36e2e288",
    "metadata": {},
    "outputs": [
     {
@@ -1877,7 +2103,7 @@
        "<AxesSubplot:xlabel='Sex', ylabel='Age'>"
       ]
      },
-     "execution_count": 47,
+     "execution_count": 44,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -1895,20 +2121,20 @@
     }
    ],
    "source": [
-    "plt.figure(figsize=(15,5)) # 그림의 가로,세로 크기 설정\n",
+    "plt.figure(figsize=(15,5)) # 그래프의 가로, 세로 크기 설정\n",
     "sns.violinplot(data=train, # 사용할 데이터\n",
-    "              x = 'Sex',\n",
-    "              y = 'Age',\n",
-    "              hue = 'Survived',\n",
+    "              x=\"Sex\",\n",
+    "              y=\"Age\",\n",
+    "              hue=\"Survived\",\n",
     "              split=True)"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "e958aa3d",
+   "id": "ca6f0eb9",
    "metadata": {},
    "source": [
-    "### 텍스트 데이터\n",
+    "#### 텍스트 데이터\n",
     "- 비정형 데이터는 단어중심 시각화\n",
     "- wordcloud\n",
     "- 빈도기반의 시각화 활용가능"
@@ -1916,17 +2142,17 @@
   },
   {
    "cell_type": "markdown",
-   "id": "c7d63f36",
+   "id": "6a71a045",
    "metadata": {},
    "source": [
-    "# 특성공학\n",
+    "## 특성공학\n",
     "- feature에서 유의미한 컬럼을 추출하거나 병합하는 행위"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 48,
-   "id": "cf787524",
+   "execution_count": 45,
+   "id": "d485aa79",
    "metadata": {},
    "outputs": [
     {
@@ -1937,7 +2163,7 @@
        "      dtype='object')"
       ]
      },
-     "execution_count": 48,
+     "execution_count": 45,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1948,17 +2174,17 @@
   },
   {
    "cell_type": "markdown",
-   "id": "44952193",
+   "id": "fd21b148",
    "metadata": {},
    "source": [
-    "## 가족 컬럼을 만들어보자.\n",
+    "### 가족 컬럼을 만들어보자!\n",
     "- SibSp와 Parch를 병합하자"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 50,
-   "id": "e486cf72",
+   "execution_count": 46,
+   "id": "16988347",
    "metadata": {},
    "outputs": [
     {
@@ -1967,7 +2193,7 @@
        "<AxesSubplot:xlabel='SibSp', ylabel='count'>"
       ]
      },
-     "execution_count": 50,
+     "execution_count": 46,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -1986,14 +2212,14 @@
    ],
    "source": [
     "sns.countplot(data=train,\n",
-    "             x='SibSp',\n",
-    "             hue = 'Survived')"
+    "              x=\"SibSp\",\n",
+    "              hue=\"Survived\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 51,
-   "id": "b51be6e3",
+   "execution_count": 47,
+   "id": "0b01ce73",
    "metadata": {},
    "outputs": [
     {
@@ -2002,7 +2228,7 @@
        "<AxesSubplot:xlabel='Parch', ylabel='count'>"
       ]
      },
-     "execution_count": 51,
+     "execution_count": 47,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -2021,25 +2247,14 @@
    ],
    "source": [
     "sns.countplot(data=train,\n",
-    "             x='Parch',\n",
-    "             hue = 'Survived')"
+    "              x=\"Parch\",\n",
+    "              hue=\"Survived\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 52,
-   "id": "76d78f65",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# 형제, 배우자, 부모, 자식을 모두 합쳐 가족이라는 새로운 컬럼생성\n",
-    "train['Family'] = train['SibSp'] + train['Parch']"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 53,
-   "id": "aaf3dd29",
+   "execution_count": 48,
+   "id": "c32d55ce",
    "metadata": {},
    "outputs": [
     {
@@ -2048,7 +2263,7 @@
        "<AxesSubplot:xlabel='Family', ylabel='count'>"
       ]
      },
-     "execution_count": 53,
+     "execution_count": 48,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -2066,49 +2281,26 @@
     }
    ],
    "source": [
+    "train['Family'] = train[\"SibSp\"] + train['Parch']\n",
     "sns.countplot(data=train,\n",
-    "             x='Family',\n",
-    "             hue = 'Survived')"
+    "              x=\"Family\",\n",
+    "              hue=\"Survived\")"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "0eb09f03",
+   "id": "cedce24b",
    "metadata": {},
    "source": [
-    "### Cut함수를 이용한 Binning(수치 -> 범주)\n",
+    "#### Cut 함수를 이용한 Binning(수치->범주)\n",
     "- 사소한 관찰 오류를 줄여줄 수 있다.(모델의 단순화를 유도)"
    ]
   },
   {
-   "cell_type": "markdown",
-   "id": "f8a1984f",
-   "metadata": {},
-   "source": [
-    "판다스 데이터 구간별 범주화 : https://chancoding.tistory.com/148"
-   ]
-  },
-  {
    "cell_type": "code",
-   "execution_count": 62,
-   "id": "f5de1887",
+   "execution_count": 49,
+   "id": "3794ecd8",
    "metadata": {},
-   "outputs": [],
-   "source": [
-    "bins = [-1,0,3,20] # 데이터를 잘라낼 구간정보 설정\n",
-    "labels = ['Alone','Small','Large'] # 구간별 범주 이름\n",
-    "cut_result = pd.cut(x=train['Family'],\n",
-    "                    bins=bins, # 잘라낸 구간정보 설정\n",
-    "                    labels=labels) # 구간별 범주 이름 설정"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 63,
-   "id": "9debf64a",
-   "metadata": {
-    "collapsed": true
-   },
    "outputs": [
     {
      "data": {
@@ -2129,19 +2321,24 @@
        "Categories (3, object): ['Alone' < 'Small' < 'Large']"
       ]
      },
-     "execution_count": 63,
+     "execution_count": 49,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
+    "bins = [-1,0,3,20] # 데이터를 잘라낼 구간정보 설정\n",
+    "labels = [\"Alone\", \"Small\", \"Large\"] # 구간별 범주 이름\n",
+    "cut_result = pd.cut(x=train[\"Family\"], # 구간화할 데이터 설정\n",
+    "                   bins = bins, # 잘라낼 구간정보 설정\n",
+    "                   labels = labels) # 구간별 범주 이름 설정\n",
     "cut_result"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 64,
-   "id": "9e073aa8",
+   "execution_count": 50,
+   "id": "05c4402c",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2150,8 +2347,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 66,
-   "id": "b052a40a",
+   "execution_count": 51,
+   "id": "6709ea44",
    "metadata": {},
    "outputs": [
     {
@@ -2160,7 +2357,7 @@
        "<AxesSubplot:xlabel='Family_cat', ylabel='count'>"
       ]
      },
-     "execution_count": 66,
+     "execution_count": 51,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -2179,48 +2376,39 @@
    ],
    "source": [
     "sns.countplot(data=train,\n",
-    "             x='Family_cat',\n",
-    "             hue='Survived')"
+    "              x=\"Family_cat\",\n",
+    "              hue=\"Survived\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 69,
-   "id": "8f2db308",
+   "execution_count": 52,
+   "id": "f6371eee",
    "metadata": {},
    "outputs": [],
    "source": [
-    "test['Family'] = test['SibSp'] + test['Parch']\n",
+    "test['Family'] = test[\"SibSp\"] + test['Parch']\n",
     "bins = [-1,0,3,20] # 데이터를 잘라낼 구간정보 설정\n",
-    "labels = ['Alone','Small','Large'] # 구간별 범주 이름\n",
-    "cut_result = pd.cut(x=test['Family'],\n",
-    "                    bins=bins, # 잘라낸 구간정보 설정\n",
-    "                    labels=labels) # 구간별 범주 이름 설정"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 70,
-   "id": "b790591b",
-   "metadata": {},
-   "outputs": [],
-   "source": [
+    "labels = [\"Alone\", \"Small\", \"Large\"] # 구간별 범주 이름\n",
+    "cut_result = pd.cut(x=test[\"Family\"], # 구간화할 데이터 설정\n",
+    "                   bins = bins, # 잘라낼 구간정보 설정\n",
+    "                   labels = labels) # 구간별 범주 이름 설정\n",
     "test['Family_cat'] = cut_result"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "912f0101",
+   "id": "0a77b6dd",
    "metadata": {},
    "source": [
-    "## 비정형 데이터 다루기(Name)\n",
+    "### 비정형 데이터 다루기(Name)\n",
     "- 이름 중간에 호칭을 추출해서 사용해보자."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 71,
-   "id": "4b6691d8",
+   "execution_count": 53,
+   "id": "14690420",
    "metadata": {},
    "outputs": [
     {
@@ -2241,7 +2429,7 @@
        "Name: Name, Length: 891, dtype: object"
       ]
      },
-     "execution_count": 71,
+     "execution_count": 53,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2252,38 +2440,30 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 84,
-   "id": "ab3d24f1",
+   "execution_count": 54,
+   "id": "2202adfc",
    "metadata": {},
    "outputs": [],
    "source": [
     "def split_title(row):\n",
-    "    return row.split(',')[1].split('.')[0].strip()"
+    "    return row.split(\",\")[1].split(\".\")[0].strip()"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 86,
-   "id": "545c4528",
+   "execution_count": 55,
+   "id": "58415354",
    "metadata": {},
    "outputs": [],
    "source": [
-    "train['Title'] = train['Name'].apply(split_title)\n",
-    "test['Title'] = test['Name'].apply(split_title)"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "073f0fc7",
-   "metadata": {},
-   "source": [
-    "### countplot 시각화"
+    "train[\"Title\"] = train[\"Name\"].apply(split_title)\n",
+    "test[\"Title\"] = test[\"Name\"].apply(split_title)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 87,
-   "id": "7f540e3b",
+   "execution_count": 56,
+   "id": "6427e8cf",
    "metadata": {},
    "outputs": [
     {
@@ -2292,7 +2472,7 @@
        "<AxesSubplot:xlabel='Title', ylabel='count'>"
       ]
      },
-     "execution_count": 87,
+     "execution_count": 56,
      "metadata": {},
      "output_type": "execute_result"
     },
@@ -2310,47 +2490,42 @@
     }
    ],
    "source": [
-    "plt.figure(figsize=(15,5)) # 그림판의 가로, 세로 크기 조정\n",
-    "sns.countplot(data=train,\n",
-    "             x='Title',\n",
-    "             hue='Survived')"
+    "# countplot을 이용한 시각화\n",
+    "plt.figure(figsize=(15,5)) # 그림판의 가로, 세로 크기 조정(인치 단위)\n",
+    "sns.countplot(data=train, x=\"Title\", hue=\"Survived\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d6ec4a14",
+   "metadata": {},
+   "source": [
+    "#### 일부 수치가 적응 호칭을 Other로 통일하자.\n",
+    "- Mr, Mrs, Miss, Master, Rev, Other"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
-   "id": "3501b53c",
+   "execution_count": 57,
+   "id": "40639842",
    "metadata": {},
    "outputs": [],
    "source": [
-    "# 일부 수치가 적은 호칭을 Other로 통일하자.\n",
-    "# Mr, Mrs, Miss, Master, Rev, Other"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 88,
-   "id": "5785327f",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# map 함수 이용하기 (데이터 치환시 사용)\n",
+    "# map 함수 이용하기(데이터 치환시 사용)\n",
     "title_dic = {\n",
-    "    'Mr' : 'Mr',\n",
-    "    'Mrs' : 'Mrs',\n",
-    "    \"Miss\" : \"Miss\",\n",
-    "    \"Master\" : \"Master\",\n",
-    "    \"Rev\" : \"Rev\",\n",
+    "    \"Mr\" : \"Mr\",\n",
+    "    \"Mrs\" : \"Mrs\",\n",
+    "    \"Miss\" :\"Miss\",\n",
+    "    \"Master\":\"Master\",\n",
+    "    \"Rev\":\"Rev\"  \n",
     "}"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 93,
-   "id": "a54f6540",
-   "metadata": {
-    "collapsed": true
-   },
+   "execution_count": 58,
+   "id": "6649afac",
+   "metadata": {},
    "outputs": [
     {
      "data": {
@@ -2380,7 +2555,7 @@
        "Name: Title, dtype: object"
       ]
      },
-     "execution_count": 93,
+     "execution_count": 58,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2392,30 +2567,30 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 94,
-   "id": "1e72c211",
+   "execution_count": 59,
+   "id": "343a5393",
    "metadata": {},
    "outputs": [],
    "source": [
-    "train['Title'] = title_mapping.fillna('Other')"
+    "train[\"Title\"] = title_mapping.fillna(\"Other\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 95,
-   "id": "f5d66fe2",
+   "execution_count": 60,
+   "id": "193d5cc5",
    "metadata": {},
    "outputs": [],
    "source": [
     "# test 적용\n",
-    "title_mapping = test['Title'].map(title_dic)\n",
-    "test['Title'] = title_mapping.fillna('Other')"
+    "title_mapping = test[\"Title\"].map(title_dic)\n",
+    "test[\"Title\"] = title_mapping.fillna(\"Other\")"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 96,
-   "id": "aa138785",
+   "execution_count": 61,
+   "id": "e5fcc18d",
    "metadata": {},
    "outputs": [
     {
@@ -2428,22 +2603,22 @@
     }
    ],
    "source": [
-    "print(train['Title'].unique())\n",
-    "print(test['Title'].unique())"
+    "print(train[\"Title\"].unique())\n",
+    "print(test[\"Title\"].unique())"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "7594a608",
+   "id": "8fb81a08",
    "metadata": {},
    "source": [
-    "### 사용하지 않을 컬럼 정리"
+    "#### 사용하지 않을 컬럼 정리"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 97,
-   "id": "421c1f11",
+   "execution_count": 62,
+   "id": "f64990b2",
    "metadata": {},
    "outputs": [
     {
@@ -2454,19 +2629,19 @@
        "      dtype='object')"
       ]
      },
-     "execution_count": 97,
+     "execution_count": 62,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
-    "train.columns\n"
+    "train.columns"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 98,
-   "id": "df274c62",
+   "execution_count": 63,
+   "id": "aae2d3c7",
    "metadata": {},
    "outputs": [
     {
@@ -2477,7 +2652,7 @@
        "      dtype='object')"
       ]
      },
-     "execution_count": 98,
+     "execution_count": 63,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2488,57 +2663,48 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 100,
-   "id": "662afeea",
+   "execution_count": 64,
+   "id": "98da65f0",
    "metadata": {},
    "outputs": [],
    "source": [
-    "train.drop(['Name',\"SibSp\",'Parch',\"Ticket\"],axis=1,inplace=True)"
+    "train.drop([\"Name\", \"SibSp\", \"Parch\", \"Ticket\"], axis=1, inplace=True)\n",
+    "test.drop([\"Name\", \"SibSp\", \"Parch\", \"Ticket\"], axis=1, inplace=True)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 101,
-   "id": "fc2e6e5a",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "test.drop(['Name',\"SibSp\",'Parch',\"Ticket\"],axis=1,inplace=True)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 102,
-   "id": "bb3044cc",
+   "execution_count": 65,
+   "id": "1479b5a9",
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "train columns : Index(['Survived', 'Pclass', 'Sex', 'Age', 'Fare', 'Cabin', 'Embarked',\n",
+      "train columns :  Index(['Survived', 'Pclass', 'Sex', 'Age', 'Fare', 'Cabin', 'Embarked',\n",
       "       'Family', 'Family_cat', 'Title'],\n",
       "      dtype='object')\n",
-      "test columns : Index(['Pclass', 'Sex', 'Age', 'Fare', 'Cabin', 'Embarked', 'Family',\n",
+      "test columns :  Index(['Pclass', 'Sex', 'Age', 'Fare', 'Cabin', 'Embarked', 'Family',\n",
       "       'Family_cat', 'Title'],\n",
       "      dtype='object')\n"
      ]
     }
    ],
    "source": [
-    "print(\"train columns :\",train.columns)\n",
-    "print(\"test columns :\",test.columns)"
+    "print(\"train columns : \", train.columns)\n",
+    "print(\"test columns : \", test.columns)"
    ]
   },
   {
    "cell_type": "markdown",
-   "id": "6680de85",
+   "id": "0d701064",
    "metadata": {},
    "source": [
-    "# 모델링\n",
+    "## 모델링\n",
     "- 인코딩(문자형태의 데이터를 숫자형태로 변환)\n",
-    "    1. label encoding\n",
-    "    2. one-hot encoding\n",
+    "  1. lable encoding\n",
+    "  2. one-hot encoding\n",
     "- 특성선택(feature selection)\n",
     "- 모델선택 및 하이퍼파라미터 튜닝\n",
     "- 모델학습 및 평가"
@@ -2546,8 +2712,1677 @@
   },
   {
    "cell_type": "code",
+   "execution_count": 66,
+   "id": "3563f2a7",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Survived', 'Pclass', 'Sex', 'Age', 'Fare', 'Cabin', 'Embarked',\n",
+       "       'Family', 'Family_cat', 'Title'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 66,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "train.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "id": "7bafdf80",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "Int64Index: 891 entries, 1 to 891\n",
+      "Data columns (total 10 columns):\n",
+      " #   Column      Non-Null Count  Dtype   \n",
+      "---  ------      --------------  -----   \n",
+      " 0   Survived    891 non-null    int64   \n",
+      " 1   Pclass      891 non-null    int64   \n",
+      " 2   Sex         891 non-null    object  \n",
+      " 3   Age         891 non-null    int64   \n",
+      " 4   Fare        891 non-null    float64 \n",
+      " 5   Cabin       891 non-null    object  \n",
+      " 6   Embarked    891 non-null    object  \n",
+      " 7   Family      891 non-null    int64   \n",
+      " 8   Family_cat  891 non-null    category\n",
+      " 9   Title       891 non-null    object  \n",
+      "dtypes: category(1), float64(1), int64(4), object(4)\n",
+      "memory usage: 102.9+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "train.info()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "645722ae",
+   "metadata": {},
+   "source": [
+    "### 인코딩"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "id": "5ab952c3",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 인코딩할 컬럼명만 선택\n",
+    "categorical_features = [\"Sex\",\"Cabin\",\"Embarked\",\"Family_cat\", \"Title\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 69,
+   "id": "b93bc6f9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>female</th>\n",
+       "      <th>male</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>PassengerId</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>887</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>888</th>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>889</th>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>890</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>891</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>891 rows × 2 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             female  male\n",
+       "PassengerId              \n",
+       "1                 0     1\n",
+       "2                 1     0\n",
+       "3                 1     0\n",
+       "4                 1     0\n",
+       "5                 0     1\n",
+       "...             ...   ...\n",
+       "887               0     1\n",
+       "888               1     0\n",
+       "889               1     0\n",
+       "890               0     1\n",
+       "891               0     1\n",
+       "\n",
+       "[891 rows x 2 columns]"
+      ]
+     },
+     "execution_count": 69,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pd.get_dummies(train[\"Sex\"])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "id": "e0671b4e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 반복문으로 인코딩하기(train)\n",
+    "for feature_name in categorical_features:\n",
+    "    one_hot = pd.get_dummies(train[feature_name], prefix=feature_name)\n",
+    "    train = pd.concat([train, one_hot], axis=1) # 기존 데이터 끝에 one_hot을 붙임\n",
+    "    train.drop(feature_name, axis=1, inplace = True) # 기존 글자컬럼을 삭제"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "id": "06cdd797",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Survived</th>\n",
+       "      <th>Pclass</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Fare</th>\n",
+       "      <th>Family</th>\n",
+       "      <th>Sex_female</th>\n",
+       "      <th>Sex_male</th>\n",
+       "      <th>Cabin_A</th>\n",
+       "      <th>Cabin_B</th>\n",
+       "      <th>Cabin_C</th>\n",
+       "      <th>...</th>\n",
+       "      <th>Embarked_S</th>\n",
+       "      <th>Family_cat_Alone</th>\n",
+       "      <th>Family_cat_Small</th>\n",
+       "      <th>Family_cat_Large</th>\n",
+       "      <th>Title_Master</th>\n",
+       "      <th>Title_Miss</th>\n",
+       "      <th>Title_Mr</th>\n",
+       "      <th>Title_Mrs</th>\n",
+       "      <th>Title_Other</th>\n",
+       "      <th>Title_Rev</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>PassengerId</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>22</td>\n",
+       "      <td>7.2500</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>38</td>\n",
+       "      <td>71.2833</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>1</td>\n",
+       "      <td>3</td>\n",
+       "      <td>26</td>\n",
+       "      <td>7.9250</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>35</td>\n",
+       "      <td>53.1000</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>35</td>\n",
+       "      <td>8.0500</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 28 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             Survived  Pclass  Age     Fare  Family  Sex_female  Sex_male  \\\n",
+       "PassengerId                                                                 \n",
+       "1                   0       3   22   7.2500       1           0         1   \n",
+       "2                   1       1   38  71.2833       1           1         0   \n",
+       "3                   1       3   26   7.9250       0           1         0   \n",
+       "4                   1       1   35  53.1000       1           1         0   \n",
+       "5                   0       3   35   8.0500       0           0         1   \n",
+       "\n",
+       "             Cabin_A  Cabin_B  Cabin_C  ...  Embarked_S  Family_cat_Alone  \\\n",
+       "PassengerId                             ...                                 \n",
+       "1                  0        0        0  ...           1                 0   \n",
+       "2                  0        0        1  ...           0                 0   \n",
+       "3                  0        0        0  ...           1                 1   \n",
+       "4                  0        0        1  ...           1                 0   \n",
+       "5                  0        0        0  ...           1                 1   \n",
+       "\n",
+       "             Family_cat_Small  Family_cat_Large  Title_Master  Title_Miss  \\\n",
+       "PassengerId                                                                 \n",
+       "1                           1                 0             0           0   \n",
+       "2                           1                 0             0           0   \n",
+       "3                           0                 0             0           1   \n",
+       "4                           1                 0             0           0   \n",
+       "5                           0                 0             0           0   \n",
+       "\n",
+       "             Title_Mr  Title_Mrs  Title_Other  Title_Rev  \n",
+       "PassengerId                                               \n",
+       "1                   1          0            0          0  \n",
+       "2                   0          1            0          0  \n",
+       "3                   0          0            0          0  \n",
+       "4                   0          1            0          0  \n",
+       "5                   1          0            0          0  \n",
+       "\n",
+       "[5 rows x 28 columns]"
+      ]
+     },
+     "execution_count": 71,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "train.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 72,
+   "id": "eda19ed2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 반복문으로 인코딩하기(test)\n",
+    "for feature_name in categorical_features:\n",
+    "    one_hot = pd.get_dummies(test[feature_name], prefix=feature_name)\n",
+    "    test = pd.concat([test, one_hot], axis=1) # 기존 데이터 끝에 one_hot을 붙임\n",
+    "    test.drop(feature_name, axis=1, inplace = True) # 기존 글자컬럼을 삭제"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 73,
+   "id": "2a7c0d37",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Pclass</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Fare</th>\n",
+       "      <th>Family</th>\n",
+       "      <th>Sex_female</th>\n",
+       "      <th>Sex_male</th>\n",
+       "      <th>Cabin_A</th>\n",
+       "      <th>Cabin_B</th>\n",
+       "      <th>Cabin_C</th>\n",
+       "      <th>Cabin_D</th>\n",
+       "      <th>...</th>\n",
+       "      <th>Embarked_S</th>\n",
+       "      <th>Family_cat_Alone</th>\n",
+       "      <th>Family_cat_Small</th>\n",
+       "      <th>Family_cat_Large</th>\n",
+       "      <th>Title_Master</th>\n",
+       "      <th>Title_Miss</th>\n",
+       "      <th>Title_Mr</th>\n",
+       "      <th>Title_Mrs</th>\n",
+       "      <th>Title_Other</th>\n",
+       "      <th>Title_Rev</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>PassengerId</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>892</th>\n",
+       "      <td>3</td>\n",
+       "      <td>34</td>\n",
+       "      <td>7.8292</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>893</th>\n",
+       "      <td>3</td>\n",
+       "      <td>47</td>\n",
+       "      <td>7.0000</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>894</th>\n",
+       "      <td>2</td>\n",
+       "      <td>62</td>\n",
+       "      <td>9.6875</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>895</th>\n",
+       "      <td>3</td>\n",
+       "      <td>27</td>\n",
+       "      <td>8.6625</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>896</th>\n",
+       "      <td>3</td>\n",
+       "      <td>22</td>\n",
+       "      <td>12.2875</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 26 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             Pclass  Age     Fare  Family  Sex_female  Sex_male  Cabin_A  \\\n",
+       "PassengerId                                                                \n",
+       "892               3   34   7.8292       0           0         1        0   \n",
+       "893               3   47   7.0000       1           1         0        0   \n",
+       "894               2   62   9.6875       0           0         1        0   \n",
+       "895               3   27   8.6625       0           0         1        0   \n",
+       "896               3   22  12.2875       2           1         0        0   \n",
+       "\n",
+       "             Cabin_B  Cabin_C  Cabin_D  ...  Embarked_S  Family_cat_Alone  \\\n",
+       "PassengerId                             ...                                 \n",
+       "892                0        0        0  ...           0                 1   \n",
+       "893                0        0        0  ...           1                 0   \n",
+       "894                0        0        0  ...           0                 1   \n",
+       "895                0        0        0  ...           1                 1   \n",
+       "896                0        0        0  ...           1                 0   \n",
+       "\n",
+       "             Family_cat_Small  Family_cat_Large  Title_Master  Title_Miss  \\\n",
+       "PassengerId                                                                 \n",
+       "892                         0                 0             0           0   \n",
+       "893                         1                 0             0           0   \n",
+       "894                         0                 0             0           0   \n",
+       "895                         0                 0             0           0   \n",
+       "896                         1                 0             0           0   \n",
+       "\n",
+       "             Title_Mr  Title_Mrs  Title_Other  Title_Rev  \n",
+       "PassengerId                                               \n",
+       "892                 1          0            0          0  \n",
+       "893                 0          1            0          0  \n",
+       "894                 1          0            0          0  \n",
+       "895                 1          0            0          0  \n",
+       "896                 0          1            0          0  \n",
+       "\n",
+       "[5 rows x 26 columns]"
+      ]
+     },
+     "execution_count": 73,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "test.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 74,
+   "id": "8ee2f6e1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((891, 28), (418, 26))"
+      ]
+     },
+     "execution_count": 74,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "train.shape, test.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 75,
+   "id": "8160e4da",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'Cabin_T', 'Survived'}"
+      ]
+     },
+     "execution_count": 75,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# 집합연산으로 다른 컬럼을 확인해보자.\n",
+    "set(train.columns) - set(test.columns)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 76,
+   "id": "ba7f1802",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 훈련용 데이터는 Cabin에 T가 존재했지만\n",
+    "# 테스트 데이터는 Cabin에 T가 없어서 one-hot 인코딩 시 컬럼이 안만들어졌다.\n",
+    "# 테스트 데이터 끝에 Cabin_T를 추가하자\n",
+    "test['Cabin_T']=0"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 77,
+   "id": "dcb9fcb0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Pclass</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Fare</th>\n",
+       "      <th>Family</th>\n",
+       "      <th>Sex_female</th>\n",
+       "      <th>Sex_male</th>\n",
+       "      <th>Cabin_A</th>\n",
+       "      <th>Cabin_B</th>\n",
+       "      <th>Cabin_C</th>\n",
+       "      <th>Cabin_D</th>\n",
+       "      <th>...</th>\n",
+       "      <th>Family_cat_Alone</th>\n",
+       "      <th>Family_cat_Small</th>\n",
+       "      <th>Family_cat_Large</th>\n",
+       "      <th>Title_Master</th>\n",
+       "      <th>Title_Miss</th>\n",
+       "      <th>Title_Mr</th>\n",
+       "      <th>Title_Mrs</th>\n",
+       "      <th>Title_Other</th>\n",
+       "      <th>Title_Rev</th>\n",
+       "      <th>Cabin_T</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>PassengerId</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>892</th>\n",
+       "      <td>3</td>\n",
+       "      <td>34</td>\n",
+       "      <td>7.8292</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>893</th>\n",
+       "      <td>3</td>\n",
+       "      <td>47</td>\n",
+       "      <td>7.0000</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>894</th>\n",
+       "      <td>2</td>\n",
+       "      <td>62</td>\n",
+       "      <td>9.6875</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>895</th>\n",
+       "      <td>3</td>\n",
+       "      <td>27</td>\n",
+       "      <td>8.6625</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>896</th>\n",
+       "      <td>3</td>\n",
+       "      <td>22</td>\n",
+       "      <td>12.2875</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 27 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             Pclass  Age     Fare  Family  Sex_female  Sex_male  Cabin_A  \\\n",
+       "PassengerId                                                                \n",
+       "892               3   34   7.8292       0           0         1        0   \n",
+       "893               3   47   7.0000       1           1         0        0   \n",
+       "894               2   62   9.6875       0           0         1        0   \n",
+       "895               3   27   8.6625       0           0         1        0   \n",
+       "896               3   22  12.2875       2           1         0        0   \n",
+       "\n",
+       "             Cabin_B  Cabin_C  Cabin_D  ...  Family_cat_Alone  \\\n",
+       "PassengerId                             ...                     \n",
+       "892                0        0        0  ...                 1   \n",
+       "893                0        0        0  ...                 0   \n",
+       "894                0        0        0  ...                 1   \n",
+       "895                0        0        0  ...                 1   \n",
+       "896                0        0        0  ...                 0   \n",
+       "\n",
+       "             Family_cat_Small  Family_cat_Large  Title_Master  Title_Miss  \\\n",
+       "PassengerId                                                                 \n",
+       "892                         0                 0             0           0   \n",
+       "893                         1                 0             0           0   \n",
+       "894                         0                 0             0           0   \n",
+       "895                         0                 0             0           0   \n",
+       "896                         1                 0             0           0   \n",
+       "\n",
+       "             Title_Mr  Title_Mrs  Title_Other  Title_Rev  Cabin_T  \n",
+       "PassengerId                                                        \n",
+       "892                 1          0            0          0        0  \n",
+       "893                 0          1            0          0        0  \n",
+       "894                 1          0            0          0        0  \n",
+       "895                 1          0            0          0        0  \n",
+       "896                 0          1            0          0        0  \n",
+       "\n",
+       "[5 rows x 27 columns]"
+      ]
+     },
+     "execution_count": 77,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "test.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 78,
+   "id": "e75f63fb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 훈련용 데이터와 테스트 데이터의 인덱스 순서가 다르기 때문에 정렬해주자.\n",
+    "train.sort_index(axis=1, inplace=True)\n",
+    "test.sort_index(axis=1, inplace=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "id": "d232978e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Age', 'Cabin_A', 'Cabin_B', 'Cabin_C', 'Cabin_D', 'Cabin_E', 'Cabin_F',\n",
+       "       'Cabin_G', 'Cabin_M', 'Cabin_T', 'Embarked_C', 'Embarked_Q',\n",
+       "       'Embarked_S', 'Family', 'Family_cat_Alone', 'Family_cat_Large',\n",
+       "       'Family_cat_Small', 'Fare', 'Pclass', 'Sex_female', 'Sex_male',\n",
+       "       'Survived', 'Title_Master', 'Title_Miss', 'Title_Mr', 'Title_Mrs',\n",
+       "       'Title_Other', 'Title_Rev'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 79,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "train.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 80,
+   "id": "06af2531",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Age', 'Cabin_A', 'Cabin_B', 'Cabin_C', 'Cabin_D', 'Cabin_E', 'Cabin_F',\n",
+       "       'Cabin_G', 'Cabin_M', 'Cabin_T', 'Embarked_C', 'Embarked_Q',\n",
+       "       'Embarked_S', 'Family', 'Family_cat_Alone', 'Family_cat_Large',\n",
+       "       'Family_cat_Small', 'Fare', 'Pclass', 'Sex_female', 'Sex_male',\n",
+       "       'Title_Master', 'Title_Miss', 'Title_Mr', 'Title_Mrs', 'Title_Other',\n",
+       "       'Title_Rev'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 80,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "test.columns"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b8c15b05",
+   "metadata": {},
+   "source": [
+    "### 특성선택\n",
+    "- 예측결과에 영향을 줄 특성들을 골라본다.\n",
+    "- Family와 Family_cat이 비슷한 특성이기 때문에 선택해보자."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cc11668e",
+   "metadata": {},
+   "source": [
+    "#### 문제와 답 만들기"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 81,
+   "id": "208f07a9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "X_train = train.drop(['Survived', 'Family'], axis=1)\n",
+    "y_train = train.Survived # = train['Survived']\n",
+    "X_test = test.drop('Family', axis=1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 82,
+   "id": "b64ffec9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((891, 26), (891,))"
+      ]
+     },
+     "execution_count": 82,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X_train.shape, y_train.shape"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cefa5c37",
+   "metadata": {},
+   "source": [
+    "### 학습\n",
+    "- KNN모델과 DecisionTree모델 활용"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 83,
+   "id": "065da891",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.neighbors import KNeighborsClassifier\n",
+    "from sklearn.tree import DecisionTreeClassifier"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 84,
+   "id": "5abc90e8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 모델 생성\n",
+    "knn_model = KNeighborsClassifier()\n",
+    "tree_model = DecisionTreeClassifier()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 85,
+   "id": "fa28e08c",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "DecisionTreeClassifier()"
+      ]
+     },
+     "execution_count": 85,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# 모델 학습\n",
+    "knn_model.fit(X_train, y_train)\n",
+    "tree_model.fit(X_train, y_train)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 86,
+   "id": "40dcd924",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 모델 예측\n",
+    "knn_pre = knn_model.predict(X_test)\n",
+    "tree_pre = tree_model.predict(X_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 87,
+   "id": "9dd98e8e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 정답파일 만들기\n",
+    "submission = pd.read_csv('./data/gender_submission.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 88,
+   "id": "8ea40d6a",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>PassengerId</th>\n",
+       "      <th>Survived</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>892</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>893</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>894</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>895</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>896</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   PassengerId  Survived\n",
+       "0          892         0\n",
+       "1          893         1\n",
+       "2          894         0\n",
+       "3          895         0\n",
+       "4          896         1"
+      ]
+     },
+     "execution_count": 88,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "submission.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 89,
+   "id": "00bf30e7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "submission[\"Survived\"] = knn_pre"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 90,
+   "id": "2ff7929c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 데이터프레임을 csv파일로 저장\n",
+    "submission.to_csv(\"./data/knn_pre.csv\", index=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 91,
+   "id": "601ddd09",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "submission['Survived'] = tree_pre\n",
+    "submission.to_csv(\"./data/tree_pre.csv\", index=False)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1f8b90c4",
+   "metadata": {},
+   "source": [
+    "### 정규화\n",
+    "- 편향된 데이터를 정규분포로 만드는 작업\n",
+    "- 모델의 성능을 향상"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 92,
+   "id": "30208590",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>0</th>\n",
+       "      <th>1</th>\n",
+       "      <th>2</th>\n",
+       "      <th>y</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>56</td>\n",
+       "      <td>18</td>\n",
+       "      <td>27</td>\n",
+       "      <td>2.926144</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>81</td>\n",
+       "      <td>57</td>\n",
+       "      <td>3</td>\n",
+       "      <td>4.744364</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>25</td>\n",
+       "      <td>9</td>\n",
+       "      <td>11</td>\n",
+       "      <td>1.439488</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>20</td>\n",
+       "      <td>13</td>\n",
+       "      <td>30</td>\n",
+       "      <td>0.569621</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>27</td>\n",
+       "      <td>13</td>\n",
+       "      <td>13</td>\n",
+       "      <td>1.230924</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    0   1   2         y\n",
+       "0  56  18  27  2.926144\n",
+       "1  81  57   3  4.744364\n",
+       "2  25   9  11  1.439488\n",
+       "3  20  13  30  0.569621\n",
+       "4  27  13  13  1.230924"
+      ]
+     },
+     "execution_count": 92,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data = pd.read_csv(\"./data/data_skew.csv\")\n",
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ae66141d",
+   "metadata": {},
+   "source": [
+    "##### 데이터 스케일링\n",
+    "- 각 feature의 스케일이 다르면 예측결과가 안좋은 경우가 있다.\n",
+    "- KNN, SVM, 신경망모델, Clustering 모델 등"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 93,
+   "id": "6484fa28",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.preprocessing import StandardScaler"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 94,
+   "id": "1446b764",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 스케일러 생성 (평균과 표준편차)\n",
+    "std_scaler = StandardScaler()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 95,
+   "id": "d8c88ecd",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "StandardScaler()"
+      ]
+     },
+     "execution_count": 95,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# 기준값 생성\n",
+    "std_scaler.fit(X_train[[\"Fare\"]])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 96,
+   "id": "9301c2e6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 데이터 변형(train)\n",
+    "scaled_fare = std_scaler.transform(X_train[['Fare']])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 97,
+   "id": "cc94197d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<AxesSubplot:xlabel='Fare', ylabel='Density'>"
+      ]
+     },
+     "execution_count": 97,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "X_train['Fare'] = scaled_fare\n",
+    "sns.kdeplot(data=X_train, x='Fare')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 98,
+   "id": "7c4268e3",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 데이터 변형(test)\n",
+    "scaled_fare = std_scaler.transform(X_test[['Fare']])\n",
+    "X_test['Fare'] = scaled_fare"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 99,
+   "id": "848538aa",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "knn_model2 = KNeighborsClassifier()\n",
+    "knn_model2.fit(X_train, y_train)\n",
+    "knn_pre2 = knn_model2.predict(X_test)\n",
+    "submission['Survived'] = knn_pre2\n",
+    "submission.to_csv('./data/scale_knn_pre.csv', index=False)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2f622854",
+   "metadata": {},
+   "source": [
+    "### 하이퍼 파라미터 튜닝\n",
+    "- KNN모델과 DecisionTree 모델을 최적화해보자.\n",
+    "- KNN : 이웃숫자\n",
+    "- Tree : 나무의 깊이, 리프노드의 개수, 한 리프노드에 들어갈 샘플 수 등"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "61f3e01e",
+   "metadata": {},
+   "source": [
+    "#### 모델 최적화를 위해 검증 데이터셋을 만들자"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 100,
+   "id": "f19e3f35",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.model_selection import train_test_split"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 101,
+   "id": "dfbd2da2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "X_train2,X_val,y_train2,y_val = train_test_split(X_train,y_train,\n",
+    "                                                test_size=0.3,\n",
+    "                                                random_state=719)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 102,
+   "id": "09efa0c2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((623, 26), (623,))"
+      ]
+     },
+     "execution_count": 102,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X_train2.shape, y_train2.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 103,
+   "id": "15901031",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((268, 26), (268,))"
+      ]
+     },
+     "execution_count": 103,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X_val.shape, y_val.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 104,
+   "id": "c410e150",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'test_acc' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "Input \u001b[1;32mIn [104]\u001b[0m, in \u001b[0;36m<cell line: 8>\u001b[1;34m()\u001b[0m\n\u001b[0;32m     12\u001b[0m \u001b[38;5;66;03m# 이웃의 수마다의 훈련데이터 정확도와 테스트데이터 정확도를 리스트에 저장\u001b[39;00m\n\u001b[0;32m     13\u001b[0m train_acc\u001b[38;5;241m.\u001b[39mappend(knn_model\u001b[38;5;241m.\u001b[39mscore(X_train,y_train))\n\u001b[1;32m---> 14\u001b[0m \u001b[43mtest_acc\u001b[49m\u001b[38;5;241m.\u001b[39mappend(knn_model\u001b[38;5;241m.\u001b[39mscore(X_val,y_val))\n",
+      "\u001b[1;31mNameError\u001b[0m: name 'test_acc' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "# 이웃의 수마다의 정확도\n",
+    "train_acc = []\n",
+    "val_acc = []\n",
+    "\n",
+    "# 사용할 이웃의 범위 값들을 정의\n",
+    "neighbor = range(1,20)\n",
+    "\n",
+    "for n in neighbor:\n",
+    "    knn_model = KNeighborsClassifier(n_neighbors=n)\n",
+    "    knn_model.fit(X_train,y_train)\n",
+    "    \n",
+    "    # 이웃의 수마다의 훈련데이터 정확도와 테스트데이터 정확도를 리스트에 저장\n",
+    "    train_acc.append(knn_model.score(X_train,y_train))\n",
+    "    test_acc.append(knn_model.score(X_val,y_val))"
+   ]
+  },
+  {
+   "cell_type": "code",
    "execution_count": null,
-   "id": "d8e6eb9b",
+   "id": "f7d20a2e",
    "metadata": {},
    "outputs": [],
    "source": []
@@ -2555,7 +4390,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "77542300",
+   "id": "ecb3611c",
    "metadata": {},
    "outputs": [],
    "source": []
@@ -2563,7 +4398,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "a9f7bd94",
+   "id": "8d623f9e",
    "metadata": {},
    "outputs": [],
    "source": []
@@ -2571,7 +4406,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "6645504e",
+   "id": "39e4932e",
    "metadata": {},
    "outputs": [],
    "source": []
@@ -2579,7 +4414,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "0e9e94f1",
+   "id": "27024ab1",
    "metadata": {},
    "outputs": [],
    "source": []
@@ -2612,9 +4447,14 @@
    "title_cell": "Table of Contents",
    "title_sidebar": "Contents",
    "toc_cell": false,
-   "toc_position": {},
+   "toc_position": {
+    "height": "calc(100% - 180px)",
+    "left": "10px",
+    "top": "150px",
+    "width": "257.997px"
+   },
    "toc_section_display": true,
-   "toc_window_display": false
+   "toc_window_display": true
   }
  },
  "nbformat": 4,
